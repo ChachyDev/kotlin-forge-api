@@ -1,0 +1,91 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.0' apply false
+    id "com.github.johnrengelman.shadow" version "6.1.0" apply false
+    id "net.minecraftforge.gradle.forge" version "8f14deb507" apply false
+}
+
+version = "1.0.0"
+
+subprojects {
+    apply plugin: "kotlin"
+    apply plugin: "com.github.johnrengelman.shadow"
+    apply plugin: "net.minecraftforge.gradle.forge"
+
+    group = "club.chachy"
+    archivesBaseName = project.name
+
+    sourceCompatibility = targetCompatibility = 1.8
+    compileJava.options.encoding = 'UTF-8'
+
+    minecraft {
+        version = "1.8.9-11.15.1.2318-1.8.9"
+        runDir = "run"
+        mappings = "stable_22"
+        makeObfSourceJar = false
+    }
+
+    configurations {
+        // Creates an extra configuration that implements `implementation` to be used later as the configuration that shades libraries
+        include
+        implementation.extendsFrom(include)
+    }
+
+    dependencies {
+        api "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    }
+
+    /**
+     * This task simply replaces the `${version}` and `${mcversion}` properties in the mcmod.info with the data from Gradle
+     */
+    processResources {
+        // this will ensure that this task is redone when the versions change.
+        inputs.property "version", project.version
+        inputs.property "mcversion", project.minecraft.version
+
+        // replace stuff in mcmod.info, nothing else
+        from(sourceSets.main.resources.srcDirs) {
+            include 'mcmod.info'
+
+            // replace version and mcversion
+            expand 'version': project.version, 'mcversion': project.minecraft.version
+        }
+
+        // copy everything else, thats not the mcmod.info
+        from(sourceSets.main.resources.srcDirs) {
+            exclude 'mcmod.info'
+        }
+    }
+
+    /**
+     * This task simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
+     */
+    task moveResources {
+        doLast {
+            ant.move file: "${buildDir}/resources/main",
+                todir: "${buildDir}/classes/java"
+        }
+    }
+
+    moveResources.dependsOn processResources
+    classes.dependsOn moveResources
+
+    // This adds support to ("embed", "shade", "include") libraries into our JAR
+    shadowJar {
+        archiveClassifier.set('')
+        configurations = [project.configurations.include]
+        duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    }
+    repositories {
+        mavenCentral()
+    }
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+}
