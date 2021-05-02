@@ -27,4 +27,5 @@ pluginManagement {
 
 rootProject.name = "kotlin-forge-api"
 
-include ":forge-event-api"
+include ":forge-event-dsl"
+include ":test-mod"

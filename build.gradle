@@ -61,8 +61,10 @@ subprojects {
      */
     task moveResources {
         doLast {
-            ant.move file: "${buildDir}/resources/main",
-                todir: "${buildDir}/classes/java"
+            if (new File("${buildDir}/resources/main").exists()) {
+                ant.move file: "${buildDir}/resources/main",
+                    todir: "${buildDir}/classes/java"
+            }
         }
     }
 
