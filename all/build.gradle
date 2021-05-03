@@ -2,13 +2,16 @@ version = "0.1.0"
 
 repositories {
     mavenCentral()
-    maven {
-        name "Koffee"
-        url "https://maven.hackery.site/"
-    }
+    maven { url "https://maven.hackery.site" }
 }
 
 dependencies {
+    rootProject.subprojects.each {
+        if (it.name != "test-mod" || it.name != "all") {
+            include(project(":${it.name}"))
+        }
+    }
+
     api("codes.som.anthony:koffee:8.0.2") {
         exclude module: "asm-commons"
         exclude module: "asm-tree"

@@ -2,7 +2,10 @@ version "0.0.1"
 
 repositories {
     mavenCentral()
-    maven { url "https://maven.hackery.site/" }
+    maven {
+        name = "videogame-hacker's repository"
+        url "https://maven.hackery.site/"
+    }
 }
 
 dependencies {
