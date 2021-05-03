@@ -1,3 +1,5 @@
+version = "0.1.0"
+
 repositories {
     mavenCentral()
     maven { url "https://maven.hackery.site/" }

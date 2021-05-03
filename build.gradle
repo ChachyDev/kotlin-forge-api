@@ -4,7 +4,7 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "8f14deb507" apply false
 }
 
-version = "1.0.0"
+version = "0.1.0"
 
 subprojects {
     apply plugin: "kotlin"
