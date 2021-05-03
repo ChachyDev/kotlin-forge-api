@@ -18,7 +18,7 @@ This module simply adds a chat dsl making it easier to forge chat messages
 To use this module simply add
 
 ```groovy
-implementation "club.chachy.kotlin-forge-api:forge-chat-dsl:0.0.1"
+implementation "club.chachy.kotlin-forge-api:forge-chat-dsl:0.1.0"
 ```
 
 Example:
@@ -37,7 +37,7 @@ Minecraft.getMinecraft().thePlayer.sendMessage {
 To use this module simply add
 
 ```groovy
-implementation "club.chachy.kotlin-forge-api:forge-event-dsl:0.0.1"
+implementation "club.chachy.kotlin-forge-api:forge-event-dsl:0.1.0"
 ```
 Example usage:
 
@@ -48,4 +48,16 @@ on<ClientChatReceivedEvent>()
         it.isCanceled = true
         Minecraft.getMinecraft().toggleFullscreen()
     }
+```
+
+### all
+To use all the modules simply add
+```groovy
+implementation "club.chachy.kotlin-forge-api:all:0.1.0"
+```
+
+## Main
+Example for adding a module:
+```groovy
+implementation "club.chachy.kotlin-forge-api:<module-here-example-forge-chat-dsl>:0.1.0"
 ```
