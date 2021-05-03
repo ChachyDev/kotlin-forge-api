@@ -15,16 +15,25 @@ class MessageBuilder internal constructor(private val space: String) {
             add(formatting)
         })
 
-    fun withStyle(formatting: EnumChatFormatting, builder: StyleBuilder.() -> Unit) =
-        createAndAppendStyle(listOf(formatting), builder)
+    fun withStyle(vararg formatting: EnumChatFormatting, builder: StyleBuilder.() -> Unit) =
+        createAndAppendStyle(listOf(*formatting), builder)
 
     fun withStyle(combinedStyle: CombinedStyle, builder: StyleBuilder.() -> Unit) =
         createAndAppendStyle(
-            mutableListOf(combinedStyle.first).apply { combinedStyle.others.forEach { add(it) } },
+            mutableListOf(combinedStyle.first).apply { addAll(combinedStyle.others) },
             builder
         )
 
-    fun style(formatting: EnumChatFormatting, builder: StyleBuilder.() -> Unit) = withStyle(formatting, builder)
+    fun style(vararg formatting: EnumChatFormatting, builder: StyleBuilder.() -> Unit) =
+        withStyle(
+            CombinedStyle(
+                formatting.firstOrNull() ?: error("You must specify a style"),
+                ArrayList<EnumChatFormatting>().apply {
+                    val list = formatting.toMutableList()
+                    list.removeAt(0)
+                    addAll(list)
+                }), builder
+        )
 
     fun style(combinedStyle: CombinedStyle, builder: StyleBuilder.() -> Unit) = withStyle(combinedStyle, builder)
 

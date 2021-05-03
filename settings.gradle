@@ -29,4 +29,5 @@ rootProject.name = "kotlin-forge-api"
 
 include ":forge-event-dsl"
 include ":forge-chat-dsl"
+include ":forge-transformer-dsl"
 include ":test-mod"

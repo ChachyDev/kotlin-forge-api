@@ -3,7 +3,7 @@ package club.chachy.chat.builder.styles
 import net.minecraft.util.EnumChatFormatting
 
 class StyleBuilder(formatting: List<EnumChatFormatting>) {
-    private val builder = StringBuilder()
+    internal val builder = StringBuilder()
 
     init {
         formatting.forEach {

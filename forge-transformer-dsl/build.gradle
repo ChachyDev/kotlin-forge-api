@@ -1,15 +1,10 @@
-version "0.0.1"
-
 repositories {
     mavenCentral()
     maven { url "https://maven.hackery.site/" }
 }
 
 dependencies {
-    ["event", "chat", "transformer"].each { implementation project(":forge-${it}-dsl") }
-
-    // transformer-dsl depends on koffee
-    include("codes.som.anthony:koffee:8.0.2") {
+    api("codes.som.anthony:koffee:8.0.2") {
         exclude module: "asm-commons"
         exclude module: "asm-tree"
         exclude module: "asm"

@@ -13,6 +13,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 
 @Mod(name = "TestMod", modid = "testmod", version = "1.0.0")
 class TestMod {
+    private val minecraft get() = Minecraft.getMinecraft()
+    private val player get() = minecraft.thePlayer
+
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {
         // event-dsl testing
@@ -21,18 +24,25 @@ class TestMod {
             .filter { it.message.unformattedText.contains("Secret Fullscreen Tactic") }
             .subscribe {
                 it.isCanceled = true
-                Minecraft.getMinecraft().toggleFullscreen()
+                minecraft.toggleFullscreen()
             }
 
+        // Chat dsl testing
         on<ClientChatReceivedEvent>()
             .filter { it.message.unformattedText.contains("Send the test chat message") }
             .subscribe {
                 it.isCanceled = true
-                Minecraft.getMinecraft().thePlayer.sendMessage {
+                player.sendMessage {
                     withStyle(green + bold + italic) {
                         +"It's green, bold AND italic!"
                     }
-                    +"Boring message"
+                    style(red) {
+                        +"This is a normal red message"
+                    }
+                    withStyle(red, bold) {
+                        +"This is red AND bold!"
+                    }
+                    +"Now this is just normal (BORING!)"
                 }
             }
     }
