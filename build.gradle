@@ -1,10 +1,12 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.0' apply false
+    id "org.jetbrains.kotlin.jvm" version "1.5.21" apply false
     id "com.github.johnrengelman.shadow" version "6.1.0" apply false
-    id "net.minecraftforge.gradle.forge" version "8f14deb507" apply false
+    id "net.minecraftforge.gradle.forge" version "ddb1eb0" apply false
 }
 
-version = "0.1.0"
+allprojects {
+    version = "0.2.0"
+}
 
 subprojects {
     apply plugin: "kotlin"
@@ -15,11 +17,11 @@ subprojects {
     archivesBaseName = project.name
 
     sourceCompatibility = targetCompatibility = 1.8
-    compileJava.options.encoding = 'UTF-8'
+    compileJava.options.encoding = "UTF-8"
 
     minecraft {
         version = "1.8.9-11.15.1.2318-1.8.9"
-        runDir = "run"
+        runDir = "${project.name}/run"
         mappings = "stable_22"
         if (project.name == "test-mod") {
             clientJvmArgs += "-Dfml.coreMods.load=club.chachy.test.tweaker.TestTweaker"
@@ -47,20 +49,20 @@ subprojects {
 
         // replace stuff in mcmod.info, nothing else
         from(sourceSets.main.resources.srcDirs) {
-            include 'mcmod.info'
+            include "mcmod.info"
 
             // replace version and mcversion
-            expand 'version': project.version, 'mcversion': project.minecraft.version
+            expand "version": project.version, "mcversion": project.minecraft.version
         }
 
         // copy everything else, thats not the mcmod.info
         from(sourceSets.main.resources.srcDirs) {
-            exclude 'mcmod.info'
+            exclude "mcmod.info"
         }
     }
 
     /**
-     * This task simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
+     * This task simply moves resources so they can be accessed at runtime, Forge is quite weird isn"t it
      */
     task moveResources {
         doLast {
@@ -76,7 +78,7 @@ subprojects {
 
     // This adds support to ("embed", "shade", "include") libraries into our JAR
     shadowJar {
-        archiveClassifier.set('')
+        archiveClassifier.set("")
         configurations = [project.configurations.include]
         duplicatesStrategy DuplicatesStrategy.EXCLUDE
     }
