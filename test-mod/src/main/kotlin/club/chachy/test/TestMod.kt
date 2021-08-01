@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.eventhandler.Event
 
-@Mod(name = "TestMod", modid = "testmod", version = "1.0.0")
+@Mod(name = "TestMod", modid = "testmod", version = "0.2.0")
 class TestMod {
     private val minecraft get() = Minecraft.getMinecraft()
     private val player get() = minecraft.thePlayer
