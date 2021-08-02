@@ -8,11 +8,7 @@ class ForgeHandler<T : Event>(private val eventClazz: Class<T>) : Handler<T>() {
     @SubscribeEvent
     fun onEvent(event: T) {
         if (eventClazz == event::class.java) {
-            storage.forEach {
-                if (it.filter(event)) {
-                    it.execute(event)
-                }
-            }
+            process(event)
         }
     }
 }

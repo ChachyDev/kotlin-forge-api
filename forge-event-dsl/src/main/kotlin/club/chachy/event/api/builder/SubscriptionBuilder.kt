@@ -3,7 +3,6 @@ package club.chachy.event.api.builder
 import club.chachy.event.api.bus.EventBus
 import club.chachy.event.api.handler.Handler
 import club.chachy.event.handlerRegistry
-import net.minecraftforge.common.MinecraftForge
 
 /**
  * The main part of the code which handles the DSL blocks and building the data into an "event-handler"
@@ -13,7 +12,7 @@ import net.minecraftforge.common.MinecraftForge
  * @since 0.2.0
  */
 class SubscriptionBuilder<E, T : E>(private val eventClass: Class<T>, private val bus: EventBus<E>) {
-    private var filter: (T) -> Boolean = { true }
+    private var filter: MutableList<(T) -> Boolean> = mutableListOf({ true })
 
     private var execute: (T) -> Unit = {}
 
@@ -25,7 +24,7 @@ class SubscriptionBuilder<E, T : E>(private val eventClass: Class<T>, private va
      * @since 0.2.0
      */
     fun filter(block: (T) -> Boolean): SubscriptionBuilder<E, T> {
-        filter = block
+        filter.add(block)
         return this
     }
 
