@@ -4,10 +4,9 @@ repositories {
 }
 
 dependencies {
-    rootProject.subprojects.each {
-        if (it.name != "test-mod" || it.name != "all") {
-            include(project(":${it.name}"))
-        }
+    for (Project p : rootProject.subprojects) {
+        if (p.name == "all" || p.name == "test-mod") continue
+        include(project(":${p.name}"))
     }
 
     api("codes.som.anthony:koffee:8.0.2") {
