@@ -7,7 +7,7 @@ package club.chachy.event.api.handler
  *
  * @author ChachhyDev
  */
-abstract class Handler<T> internal constructor() {
+abstract class Handler<T> {
     /**
      * HandlerData contains data such as what should be executed and the filter that should be executed
      * before attempting to executte the stored action.
