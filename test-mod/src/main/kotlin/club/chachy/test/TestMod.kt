@@ -10,8 +10,9 @@ import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
+import net.minecraftforge.fml.common.eventhandler.Event
 
-@Mod(name = "TestMod", modid = "testmod", version = "1.0.0")
+@Mod(name = "TestMod", modid = "testmod", version = "0.2.0")
 class TestMod {
     private val minecraft get() = Minecraft.getMinecraft()
     private val player get() = minecraft.thePlayer
@@ -21,7 +22,7 @@ class TestMod {
         // event-dsl testing
         // Listen for "Secret Fullscreen Tactic" and if the messages passes the filter toggle fullscreen
         on<ClientChatReceivedEvent>()
-            .filter { it.message.unformattedText.contains("Secret Fullscreen Tactic") }
+            .filter { it.message.unformattedText.contains("Secret Fullscreen Tactic", true) }
             .subscribe {
                 it.isCanceled = true
                 minecraft.toggleFullscreen()
@@ -29,7 +30,7 @@ class TestMod {
 
         // Chat dsl testing
         on<ClientChatReceivedEvent>()
-            .filter { it.message.unformattedText.contains("Send the test chat message") }
+            .filter { it.message.unformattedText.contains("Send the test chat message", true) }
             .subscribe {
                 it.isCanceled = true
                 player.sendMessage {
